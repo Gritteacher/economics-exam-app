@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Sarabun", sans-serif;
+  background: #f3f6f4;
+  color: #183320;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  background: #ffffff;
+  margin-top: 40px;
+  padding: 32px;
+  border-radius: 22px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+.hidden {
+  display: none !important;
+}
+
+h1, h2 {
+  margin-top: 0;
+  color: #12351f;
+}
+
+.subtitle {
+  color: #5d6f63;
+  margin-bottom: 28px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #c8d6cc;
+  border-radius: 14px;
+  font-size: 18px;
+  font-family: inherit;
+  margin-bottom: 18px;
+}
+
+button {
+  border: none;
+  background: #0f6b3d;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0b5731;
+}
+
+button:disabled {
+  background: #9aa59d;
+  cursor: not-allowed;
+}
+
+.message {
+  color: #b00020;
+  font-weight: 600;
+}
+
+.student-box {
+  background: #eef7f0;
+  padding: 16px 20px;
+  border-radius: 16px;
+  margin: 24px 0;
+}
+
+.exam-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #ffffff;
+  border-radius: 0 0 20px 20px;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.timer {
+  background: #ffe7e7;
+  color: #a50000;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.question-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.question-title {
+  font-weight: 700;
+  margin-bottom: 18px;
+  line-height: 1.7;
+}
+
+.choice {
+  display: block;
+  padding: 12px 14px;
+  border: 1px solid #d7e2da;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.choice:hover {
+  background: #f0f8f2;
+}
+
+.choice input {
+  width: auto;
+  margin-right: 8px;
+  margin-bottom: 0;
+}
+
+.submit-area {
+  text-align: center;
+  padding: 28px 0 48px;
+}
+
+.warning {
+  background: #fff3cd;
+  color: #664d03;
+  padding: 14px 18px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.note {
+  color: #5b6f63;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ระบบข้อสอบออนไลน์ เศรษฐศาสตร์</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <section id="loginPage" class="card">
+      <h1>ระบบข้อสอบออนไลน์</h1>
+      <p class="subtitle">เศรษฐศาสตร์พื้นฐาน ระดับ A-Level</p>
+
+      <label>กรอก Token สำหรับเข้าสอบ</label>
+      <input id="tokenInput" type="text" placeholder="เช่น A12345" autocomplete="off" />
+
+      <button id="loginBtn">เข้าสู่ระบบสอบ</button>
+
+      <p id="loginMessage" class="message"></p>
+    </section>
+
+    <section id="instructionPage" class="card hidden">
+      <h2>คำชี้แจงก่อนเริ่มสอบ</h2>
+
+      <ul>
+        <li>ข้อสอบเป็นแบบปรนัย 5 ตัวเลือก ก-จ</li>
+        <li>ระบบจำกัดเวลา 40 นาที</li>
+        <li>ห้ามเปลี่ยนแท็บ ห้ามย่อหน้าจอ ห้ามออกจาก Fullscreen</li>
+        <li>หากมีพฤติกรรมผิดปกติ ระบบจะบันทึก Log</li>
+        <li>Token ใช้ส่งคำตอบได้เพียงครั้งเดียว</li>
+      </ul>
+
+      <div class="student-box">
+        <p><strong>ชื่อ:</strong> <span id="studentName"></span></p>
+        <p><strong>ชั้น:</strong> <span id="studentClass"></span></p>
+      </div>
+
+      <button id="startBtn">เริ่มทำข้อสอบ</button>
+    </section>
+
+    <section id="examPage" class="hidden">
+      <header class="exam-header">
+        <div>
+          <h2>ข้อสอบเศรษฐศาสตร์</h2>
+          <p id="studentInfo"></p>
+        </div>
+        <div class="timer">
+          เหลือเวลา <span id="timerText">40:00</span>
+        </div>
+      </header>
+
+      <div id="warningBox" class="warning hidden"></div>
+
+      <form id="examForm"></form>
+
+      <div class="submit-area">
+        <button id="submitBtn" type="button">ส่งคำตอบ</button>
+      </div>
+    </section>
+
+    <section id="resultPage" class="card hidden">
+      <h2>ส่งคำตอบเรียบร้อย</h2>
+      <p id="resultText"></p>
+      <p class="note">ระบบได้บันทึกคำตอบแล้ว ไม่สามารถทำซ้ำด้วย Token เดิมได้</p>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
