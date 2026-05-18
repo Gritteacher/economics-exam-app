@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbybRWXkgPJ5YcE3QRKplpWcVQAZR7T1S_XLKEdZQow_sZkgroEh03EN042w-1krMKqQ3g/exec";
+const GAS_URL = "ใส่ลิงก์ Google Apps Script Web App ตรงนี้";
 
 let currentToken = "";
 let student = {};
