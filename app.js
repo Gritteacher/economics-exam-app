@@ -16,51 +16,82 @@ let timeLeft = totalTime;
 let timerInterval = null;
 let startTime = null;
 
-const loginPage = document.getElementById("loginPage");
-const instructionPage = document.getElementById("instructionPage");
-const examPage = document.getElementById("examPage");
-const resultPage = document.getElementById("resultPage");
+let loginPage;
+let instructionPage;
+let examPage;
+let resultPage;
 
-const fullNameInput = document.getElementById("fullNameInput");
-const studentNoInput = document.getElementById("studentNoInput");
-const classroomInput = document.getElementById("classroomInput");
+let fullNameInput;
+let studentNoInput;
+let classroomInput;
 
-const loginBtn = document.getElementById("loginBtn");
-const loginMessage = document.getElementById("loginMessage");
-const startBtn = document.getElementById("startBtn");
+let loginBtn;
+let loginMessage;
+let startBtn;
 
-const studentName = document.getElementById("studentName");
-const studentNo = document.getElementById("studentNo");
-const studentClass = document.getElementById("studentClass");
-const studentInfo = document.getElementById("studentInfo");
+let studentNameText;
+let studentNoText;
+let studentClassText;
+let studentInfo;
 
-const timerText = document.getElementById("timerText");
-const examForm = document.getElementById("examForm");
-const warningBox = document.getElementById("warningBox");
-const submitBtn = document.getElementById("submitBtn");
-const resultText = document.getElementById("resultText");
+let timerText;
+let examForm;
+let warningBox;
+let submitBtn;
+let resultText;
 
-loginBtn.addEventListener("click", prepareStudent);
-startBtn.addEventListener("click", startExam);
-submitBtn.addEventListener("click", () => submitExam(false));
+document.addEventListener("DOMContentLoaded", () => {
+  loginPage = document.getElementById("loginPage");
+  instructionPage = document.getElementById("instructionPage");
+  examPage = document.getElementById("examPage");
+  resultPage = document.getElementById("resultPage");
+
+  fullNameInput = document.getElementById("fullNameInput");
+  studentNoInput = document.getElementById("studentNoInput");
+  classroomInput = document.getElementById("classroomInput");
+
+  loginBtn = document.getElementById("loginBtn");
+  loginMessage = document.getElementById("loginMessage");
+  startBtn = document.getElementById("startBtn");
+
+  studentNameText = document.getElementById("studentName");
+  studentNoText = document.getElementById("studentNo");
+  studentClassText = document.getElementById("studentClass");
+  studentInfo = document.getElementById("studentInfo");
+
+  timerText = document.getElementById("timerText");
+  examForm = document.getElementById("examForm");
+  warningBox = document.getElementById("warningBox");
+  submitBtn = document.getElementById("submitBtn");
+  resultText = document.getElementById("resultText");
+
+  loginBtn.addEventListener("click", prepareStudent);
+  startBtn.addEventListener("click", startExam);
+  submitBtn.addEventListener("click", () => submitExam(false));
+});
 
 function prepareStudent() {
   const fullName = fullNameInput.value.trim();
   const number = studentNoInput.value.trim();
   const classroom = classroomInput.value.trim();
 
+  loginMessage.textContent = "";
+
   if (!fullName) {
     loginMessage.textContent = "กรุณากรอกชื่อ - สกุล";
+    fullNameInput.focus();
     return;
   }
 
   if (!number) {
     loginMessage.textContent = "กรุณากรอกเลขที่";
+    studentNoInput.focus();
     return;
   }
 
   if (!classroom) {
     loginMessage.textContent = "กรุณาเลือกห้องเรียน";
+    classroomInput.focus();
     return;
   }
 
@@ -70,9 +101,9 @@ function prepareStudent() {
     classroom: classroom
   };
 
-  studentName.textContent = student.fullName;
-  studentNo.textContent = student.studentNo;
-  studentClass.textContent = student.classroom;
+  studentNameText.textContent = student.fullName;
+  studentNoText.textContent = student.studentNo;
+  studentClassText.textContent = student.classroom;
 
   loginPage.classList.add("hidden");
   instructionPage.classList.remove("hidden");
@@ -282,10 +313,6 @@ function exitFullScreen() {
     document.exitFullscreen().catch(() => {});
   }
 }
-
-/* ===============================
-   ระบบป้องกันการโกง
-================================ */
 
 document.addEventListener("visibilitychange", () => {
   if (examStarted && !examSubmitted && document.hidden) {
