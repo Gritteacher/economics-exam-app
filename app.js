@@ -1,7 +1,11 @@
-const GAS_URL = "ใส่ลิงก์ Google Apps Script Web App ตรงนี้";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbybRWXkgPJ5YcE3QRKplpWcVQAZR7T1S_XLKEdZQow_sZkgroEh03EN042w-1krMKqQ3g/exec";
 
-let currentToken = "";
-let student = {};
+let student = {
+  fullName: "",
+  studentNo: "",
+  classroom: ""
+};
+
 let questions = [];
 let answers = {};
 let warningCount = 0;
@@ -17,78 +21,79 @@ const instructionPage = document.getElementById("instructionPage");
 const examPage = document.getElementById("examPage");
 const resultPage = document.getElementById("resultPage");
 
-const tokenInput = document.getElementById("tokenInput");
+const fullNameInput = document.getElementById("fullNameInput");
+const studentNoInput = document.getElementById("studentNoInput");
+const classroomInput = document.getElementById("classroomInput");
+
 const loginBtn = document.getElementById("loginBtn");
 const loginMessage = document.getElementById("loginMessage");
 const startBtn = document.getElementById("startBtn");
 
 const studentName = document.getElementById("studentName");
+const studentNo = document.getElementById("studentNo");
 const studentClass = document.getElementById("studentClass");
 const studentInfo = document.getElementById("studentInfo");
+
 const timerText = document.getElementById("timerText");
 const examForm = document.getElementById("examForm");
 const warningBox = document.getElementById("warningBox");
 const submitBtn = document.getElementById("submitBtn");
 const resultText = document.getElementById("resultText");
 
-loginBtn.addEventListener("click", verifyToken);
+loginBtn.addEventListener("click", prepareStudent);
 startBtn.addEventListener("click", startExam);
 submitBtn.addEventListener("click", () => submitExam(false));
 
-async function verifyToken() {
-  const token = tokenInput.value.trim();
+function prepareStudent() {
+  const fullName = fullNameInput.value.trim();
+  const number = studentNoInput.value.trim();
+  const classroom = classroomInput.value.trim();
 
-  if (!token) {
-    loginMessage.textContent = "กรุณากรอก Token";
+  if (!fullName) {
+    loginMessage.textContent = "กรุณากรอกชื่อ - สกุล";
     return;
   }
 
-  loginBtn.disabled = true;
-  loginMessage.textContent = "กำลังตรวจสอบ Token...";
-
-  try {
-    const url = `${GAS_URL}?action=verifyToken&token=${encodeURIComponent(token)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (!data.success) {
-      loginMessage.textContent = data.message;
-      loginBtn.disabled = false;
-      return;
-    }
-
-    currentToken = data.token;
-    student = {
-      name: data.name,
-      classroom: data.classroom
-    };
-
-    studentName.textContent = student.name;
-    studentClass.textContent = student.classroom;
-
-    loginPage.classList.add("hidden");
-    instructionPage.classList.remove("hidden");
-  } catch (error) {
-    loginMessage.textContent = "ไม่สามารถติดต่อ Server ได้";
-    loginBtn.disabled = false;
+  if (!number) {
+    loginMessage.textContent = "กรุณากรอกเลขที่";
+    return;
   }
+
+  if (!classroom) {
+    loginMessage.textContent = "กรุณาเลือกห้องเรียน";
+    return;
+  }
+
+  student = {
+    fullName: fullName,
+    studentNo: number,
+    classroom: classroom
+  };
+
+  studentName.textContent = student.fullName;
+  studentNo.textContent = student.studentNo;
+  studentClass.textContent = student.classroom;
+
+  loginPage.classList.add("hidden");
+  instructionPage.classList.remove("hidden");
 }
 
 async function startExam() {
   try {
     await requestFullScreen();
 
-    const url = `${GAS_URL}?action=getExam&token=${encodeURIComponent(currentToken)}`;
+    const url = `${GAS_URL}?action=getExam`;
     const res = await fetch(url);
     const data = await res.json();
 
     if (!data.success) {
-      alert(data.message);
+      alert(data.message || "ไม่สามารถโหลดข้อสอบได้");
       return;
     }
 
     totalTime = data.totalTime || 40 * 60;
     timeLeft = totalTime;
+
     questions = shuffleArray(data.questions).map(q => ({
       ...q,
       choices: shuffleChoices(q.choices)
@@ -97,10 +102,11 @@ async function startExam() {
     instructionPage.classList.add("hidden");
     examPage.classList.remove("hidden");
 
-    studentInfo.textContent = `${student.name} | ${student.classroom}`;
+    studentInfo.textContent = `${student.fullName} | เลขที่ ${student.studentNo} | ${student.classroom}`;
 
     renderQuestions();
     startTimer();
+
     startTime = Date.now();
     examStarted = true;
 
@@ -138,6 +144,7 @@ function renderQuestions() {
 
       label.appendChild(input);
       label.appendChild(document.createTextNode(`${choice.key}. ${choice.text}`));
+
       card.appendChild(label);
     });
 
@@ -187,7 +194,9 @@ async function submitExam(autoSubmit) {
       method: "POST",
       body: JSON.stringify({
         action: "submitExam",
-        token: currentToken,
+        fullName: student.fullName,
+        studentNo: student.studentNo,
+        classroom: student.classroom,
         answers: answers,
         warnings: warningCount,
         timeUsed: timeUsed
@@ -202,19 +211,20 @@ async function submitExam(autoSubmit) {
     if (data.success) {
       resultText.textContent = `คะแนนของคุณคือ ${data.score} / ${data.total}`;
     } else {
-      resultText.textContent = data.message;
+      resultText.textContent = data.message || "เกิดข้อผิดพลาดในการส่งคำตอบ";
     }
 
     exitFullScreen();
   } catch (error) {
     examSubmitted = false;
     submitBtn.disabled = false;
-    alert("ส่งคำตอบไม่สำเร็จ กรุณาลองอีกครั้ง");
+    alert("ส่งคำตอบไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง");
   }
 }
 
 function showWarning(message) {
   warningCount++;
+
   warningBox.textContent = `คำเตือนครั้งที่ ${warningCount}: ${message}`;
   warningBox.classList.remove("hidden");
 
@@ -232,9 +242,11 @@ async function logWarning(type, message) {
       method: "POST",
       body: JSON.stringify({
         action: "logWarning",
-        token: currentToken,
-        type,
-        message
+        fullName: student.fullName,
+        studentNo: student.studentNo,
+        classroom: student.classroom,
+        type: type,
+        message: message
       })
     });
   } catch (error) {
@@ -248,7 +260,7 @@ function shuffleArray(array) {
 
 function shuffleChoices(choicesObj) {
   const items = Object.keys(choicesObj).map(key => ({
-    key,
+    key: key,
     text: choicesObj[key]
   }));
 
@@ -271,9 +283,9 @@ function exitFullScreen() {
   }
 }
 
-/* -------------------------------
-   Anti-cheating functions
--------------------------------- */
+/* ===============================
+   ระบบป้องกันการโกง
+================================ */
 
 document.addEventListener("visibilitychange", () => {
   if (examStarted && !examSubmitted && document.hidden) {
@@ -336,5 +348,12 @@ document.addEventListener("keydown", e => {
   ) {
     e.preventDefault();
     showWarning("ตรวจพบการใช้คีย์ลัดที่ไม่อนุญาต");
+  }
+});
+
+window.addEventListener("beforeunload", e => {
+  if (examStarted && !examSubmitted) {
+    e.preventDefault();
+    e.returnValue = "";
   }
 });
