@@ -15,8 +15,28 @@
       <h1>ระบบข้อสอบออนไลน์</h1>
       <p class="subtitle">เศรษฐศาสตร์พื้นฐาน ระดับ A-Level</p>
 
-      <label>กรอก Token สำหรับเข้าสอบ</label>
-      <input id="tokenInput" type="text" placeholder="เช่น A12345" autocomplete="off" />
+      <label>ชื่อ - สกุล</label>
+      <input id="fullNameInput" type="text" placeholder="เช่น นายกฤษณพล ทองอุ่น" autocomplete="off" />
+
+      <label>เลขที่</label>
+      <input id="studentNoInput" type="number" placeholder="เช่น 15" min="1" max="50" autocomplete="off" />
+
+      <label>ห้องเรียน</label>
+      <select id="classroomInput">
+        <option value="">-- เลือกห้องเรียน --</option>
+        <option value="ม.6/1">ม.6/1</option>
+        <option value="ม.6/2">ม.6/2</option>
+        <option value="ม.6/3">ม.6/3</option>
+        <option value="ม.6/4">ม.6/4</option>
+        <option value="ม.6/5">ม.6/5</option>
+        <option value="ม.6/6">ม.6/6</option>
+        <option value="ม.6/7">ม.6/7</option>
+        <option value="ม.6/8">ม.6/8</option>
+        <option value="ม.6/9">ม.6/9</option>
+        <option value="ม.6/10">ม.6/10</option>
+        <option value="ม.6/11">ม.6/11</option>
+        <option value="ม.6/12">ม.6/12</option>
+      </select>
 
       <button id="loginBtn">เข้าสู่ระบบสอบ</button>
 
@@ -27,16 +47,17 @@
       <h2>คำชี้แจงก่อนเริ่มสอบ</h2>
 
       <ul>
-        <li>ข้อสอบเป็นแบบปรนัย 5 ตัวเลือก ก-จ</li>
+        <li>ข้อสอบเป็นแบบปรนัย 5 ตัวเลือก ก-จ จำนวน 30 ข้อ</li>
         <li>ระบบจำกัดเวลา 40 นาที</li>
+        <li>ระบบจะสุ่มลำดับข้อสอบและสุ่มตัวเลือก</li>
         <li>ห้ามเปลี่ยนแท็บ ห้ามย่อหน้าจอ ห้ามออกจาก Fullscreen</li>
-        <li>หากมีพฤติกรรมผิดปกติ ระบบจะบันทึก Log</li>
-        <li>Token ใช้ส่งคำตอบได้เพียงครั้งเดียว</li>
+        <li>หากมีพฤติกรรมผิดปกติครบ 3 ครั้ง ระบบจะส่งคำตอบอัตโนมัติ</li>
       </ul>
 
       <div class="student-box">
-        <p><strong>ชื่อ:</strong> <span id="studentName"></span></p>
-        <p><strong>ชั้น:</strong> <span id="studentClass"></span></p>
+        <p><strong>ชื่อ - สกุล:</strong> <span id="studentName"></span></p>
+        <p><strong>เลขที่:</strong> <span id="studentNo"></span></p>
+        <p><strong>ห้อง:</strong> <span id="studentClass"></span></p>
       </div>
 
       <button id="startBtn">เริ่มทำข้อสอบ</button>
@@ -65,7 +86,7 @@
     <section id="resultPage" class="card hidden">
       <h2>ส่งคำตอบเรียบร้อย</h2>
       <p id="resultText"></p>
-      <p class="note">ระบบได้บันทึกคำตอบแล้ว ไม่สามารถทำซ้ำด้วย Token เดิมได้</p>
+      <p class="note">ระบบได้บันทึกคำตอบลง Google Sheet แล้ว</p>
     </section>
   </div>
 
