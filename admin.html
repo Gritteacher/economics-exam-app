@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>แดชบอร์ดครู | ระบบข้อสอบเศรษฐศาสตร์</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <section id="adminLoginPage" class="card">
+      <h1>หลังบ้านครู</h1>
+      <p class="subtitle">แดชบอร์ดผลสอบเศรษฐศาสตร์พื้นฐาน</p>
+
+      <label>รหัสผ่านครู</label>
+      <input id="adminPasswordInput" type="password" placeholder="กรอกรหัสผ่าน" />
+
+      <button id="adminLoginBtn">เข้าสู่แดชบอร์ด</button>
+
+      <p id="adminMessage" class="message"></p>
+    </section>
+
+    <section id="dashboardPage" class="hidden">
+      <header class="exam-header">
+        <div>
+          <h2>แดชบอร์ดผลสอบ</h2>
+          <p id="dashboardSubtext">ระบบข้อสอบเศรษฐศาสตร์พื้นฐาน</p>
+        </div>
+
+        <div class="admin-actions">
+          <button id="refreshBtn" type="button">รีเฟรชข้อมูล</button>
+          <button id="exportBtn" type="button">ส่งออก CSV</button>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <p>จำนวนผู้เข้าสอบ</p>
+          <h3 id="totalStudents">0</h3>
+        </div>
+
+        <div class="stat-card">
+          <p>คะแนนเฉลี่ย</p>
+          <h3 id="avgScore">0</h3>
+        </div>
+
+        <div class="stat-card">
+          <p>คะแนนสูงสุด</p>
+          <h3 id="highestScore">0</h3>
+        </div>
+
+        <div class="stat-card">
+          <p>คะแนนต่ำสุด</p>
+          <h3 id="lowestScore">0</h3>
+        </div>
+
+        <div class="stat-card">
+          <p>จำนวนคำเตือนรวม</p>
+          <h3 id="totalWarnings">0</h3>
+        </div>
+      </div>
+
+      <section class="dashboard-section">
+        <h2>สรุปตามห้องเรียน</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ห้อง</th>
+                <th>จำนวนผู้สอบ</th>
+                <th>คะแนนเฉลี่ย</th>
+                <th>คำเตือนรวม</th>
+              </tr>
+            </thead>
+            <tbody id="classroomTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <h2>ผลสอบรายบุคคล</h2>
+
+        <div class="filter-row">
+          <input id="searchInput" type="text" placeholder="ค้นหาชื่อ / เลขที่ / ห้อง" />
+
+          <select id="roomFilter">
+            <option value="">ทุกห้อง</option>
+            <option value="ม.6/1">ม.6/1</option>
+            <option value="ม.6/2">ม.6/2</option>
+            <option value="ม.6/3">ม.6/3</option>
+            <option value="ม.6/4">ม.6/4</option>
+            <option value="ม.6/5">ม.6/5</option>
+            <option value="ม.6/6">ม.6/6</option>
+            <option value="ม.6/7">ม.6/7</option>
+            <option value="ม.6/8">ม.6/8</option>
+            <option value="ม.6/9">ม.6/9</option>
+            <option value="ม.6/10">ม.6/10</option>
+            <option value="ม.6/11">ม.6/11</option>
+            <option value="ม.6/12">ม.6/12</option>
+          </select>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>เวลาส่ง</th>
+                <th>ชื่อ - สกุล</th>
+                <th>เลขที่</th>
+                <th>ห้อง</th>
+                <th>คะแนน</th>
+                <th>เต็ม</th>
+                <th>คำเตือน</th>
+                <th>เวลาที่ใช้</th>
+              </tr>
+            </thead>
+            <tbody id="responseTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <h2>บันทึกพฤติกรรมเสี่ยง</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>เวลา</th>
+                <th>ชื่อ - สกุล</th>
+                <th>เลขที่</th>
+                <th>ห้อง</th>
+                <th>ประเภท</th>
+                <th>รายละเอียด</th>
+              </tr>
+            </thead>
+            <tbody id="logTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
